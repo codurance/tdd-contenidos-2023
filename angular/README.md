@@ -9,6 +9,7 @@
   - https://www.npmjs.com/package/jest
   - https://www.npmjs.com/package/@testing-library/jest-dom
   - https://stackoverflow.com/a/61636112/2258921 (js-dom types)
+  - https://github.com/testing-library/jest-dom/issues/442#issuecomment-1146705664 (test passes but no toBeInTheDocument type is found)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 
