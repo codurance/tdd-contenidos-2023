@@ -1,10 +1,27 @@
-import {render, screen } from '@testing-library/angular'
-import {AppComponent} from './app.component'
+import {render} from '@testing-library/angular';
+import {AppComponent} from './app.component';
+import userEvent from "@testing-library/user-event";
 
-describe('Counter', () => {
-  test('should render counter', async () => {
-    await render(AppComponent, {})
+describe('Password validation kata', () => {
+  test('should render input text for password', async () => {
+    const { getByPlaceholderText } = await render(AppComponent, {})
 
-    expect(screen.getByText('Here are some links to help you get started:')).toBeInTheDocument()
+    expect(getByPlaceholderText('Password')).toBeInTheDocument();
+  });
+
+  test('should render save button', async () => {
+    const { getByText } = await render(AppComponent, {})
+
+    expect(getByText('Save')).toBeInTheDocument();
+  });
+
+  test('should show up error message for password that is less than 8 chars', async () => {
+    const {getByText, getByPlaceholderText} = await render(AppComponent, {})
+
+    await userEvent.type(getByPlaceholderText('Password'), '123');
+
+    await userEvent.click(getByText('Save'));
+
+    expect(getByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
   })
-})
+});
