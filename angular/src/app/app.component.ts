@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
+import {NgForm, NgModel} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular';
+
+  password = '';
+
+  isPasswordLessThan8Chars = false
+
+  onSaveBtnClick() {
+    if(this.password.length < 8) {
+      this.isPasswordLessThan8Chars = true;
+    }
+  }
 }

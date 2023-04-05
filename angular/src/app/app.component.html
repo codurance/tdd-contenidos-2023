@@ -1,2 +1,9 @@
-<input type="text" placeholder="Password"/>
-<button>Save</button>
+
+<input type="text" name="password" [(ngModel)]="password" placeholder="Password"/>
+<button (click)="onSaveBtnClick()">Save</button>
+
+<p>Value: {{ password }}</p>
+
+<ul>
+  <li *ngIf="isPasswordLessThan8Chars">Contraseña muy corta -> 8 <</li>
+</ul>
