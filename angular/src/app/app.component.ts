@@ -1,5 +1,5 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {NgForm, NgModel} from "@angular/forms";
+import {FormBuilder, NgForm, NgModel, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -13,9 +13,19 @@ export class AppComponent {
 
   isPasswordLessThan8Chars = false
 
-  onSaveBtnClick() {
-    if(this.password.length < 8) {
-      this.isPasswordLessThan8Chars = true;
+
+  form = this.formBuilder.group({
+    password: ['', []],
+  });
+
+
+  constructor(private formBuilder: FormBuilder) {}
+
+  onSubmit() {
+    if (this.form.value.password && this.form.value.password.length >= 8) {
+      return;
     }
+
+    this.isPasswordLessThan8Chars = true;
   }
 }

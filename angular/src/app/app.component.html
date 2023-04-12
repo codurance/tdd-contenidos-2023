@@ -1,6 +1,8 @@
 
-<input type="text" name="password" [(ngModel)]="password" placeholder="Password"/>
-<button (click)="onSaveBtnClick()">Save</button>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input type="text" formControlName="password" placeholder="Password"/>
+  <button type="submit">Save</button>
+</form>
 
 <p>Value: {{ password }}</p>
 
