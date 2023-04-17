@@ -16,6 +16,14 @@ describe('Password validation kata', () => {
     expect(getByText('Save')).toBeInTheDocument();
   });
 
+  test('should start app without validation errors', async () => {
+    const {queryByText} = await render(AppComponent, {
+      imports: [ReactiveFormsModule]
+    })
+
+    expect(queryByText('La contraseña debe contener mayúsculas')).not.toBeInTheDocument();
+  });
+
   test('should show up error message for password that is less than 8 chars', async () => {
     const {getByText, getByPlaceholderText, findByText} = await render(AppComponent, {
       imports: [ReactiveFormsModule]
@@ -26,5 +34,17 @@ describe('Password validation kata', () => {
     await userEvent.click(getByText('Save'));
 
     expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
+  });
+
+  test('should show up error message for password that does not have capital letters', async () => {
+    const {getByText, getByPlaceholderText, findByText} = await render(AppComponent, {
+      imports: [ReactiveFormsModule]
+    })
+
+    await userEvent.type(getByPlaceholderText('Password'), 'asdfgmfoaa');
+
+    await userEvent.click(getByText('Save'));
+
+    expect(await findByText('La contraseña debe contener mayúsculas')).toBeInTheDocument();
   })
 });

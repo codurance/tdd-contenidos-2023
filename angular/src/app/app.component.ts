@@ -1,5 +1,5 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import {FormBuilder, NgForm, NgModel, Validators} from "@angular/forms";
+import {Component} from '@angular/core';
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -7,11 +7,8 @@ import {FormBuilder, NgForm, NgModel, Validators} from "@angular/forms";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular';
-
-  password = '';
-
   isPasswordLessThan8Chars = false
+  passwordContainsCapitalLetters = false
 
 
   form = this.formBuilder.group({
@@ -22,10 +19,20 @@ export class AppComponent {
   constructor(private formBuilder: FormBuilder) {}
 
   onSubmit() {
-    if (this.form.value.password && this.form.value.password.length >= 8) {
-      return;
+    const password = this.form.value.password;
+
+    if (!password) return;
+
+    if (password.length <= 8) {
+      this.isPasswordLessThan8Chars = true;
     }
 
-    this.isPasswordLessThan8Chars = true;
+    if (this.isPasswordWithoutCapitals()) {
+      this.passwordContainsCapitalLetters = true;
+    }
+  }
+
+  private isPasswordWithoutCapitals() {
+    return !(/[A-Z]/.test(this.form.value.password!!));
   }
 }

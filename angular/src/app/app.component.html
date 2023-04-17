@@ -1,11 +1,9 @@
-
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <input type="text" formControlName="password" placeholder="Password"/>
   <button type="submit">Save</button>
 </form>
 
-<p>Value: {{ password }}</p>
-
 <ul>
   <li *ngIf="isPasswordLessThan8Chars">Contraseña muy corta -> 8 <</li>
+  <li *ngIf="passwordContainsCapitalLetters">La contraseña debe contener mayúsculas</li>
 </ul>
