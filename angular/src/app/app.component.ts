@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder} from "@angular/forms";
+import {Repository} from "./repository";
 
 @Component({
   selector: 'app-root',
@@ -8,17 +9,21 @@ import {FormBuilder} from "@angular/forms";
 })
 export class AppComponent {
   isPasswordLessThan8Chars = false
-  passwordContainsCapitalLetters = false
+  passwordDoesNotContainsCapitalLetters = false
 
+  validPasswordList: string[] = []
 
   form = this.formBuilder.group({
     password: ['', []],
   });
 
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private repository: Repository) {}
 
   onSubmit() {
+    this.isPasswordLessThan8Chars = false;
+    this.passwordDoesNotContainsCapitalLetters = false;
+
     const password = this.form.value.password;
 
     if (!password) return;
@@ -28,8 +33,14 @@ export class AppComponent {
     }
 
     if (this.isPasswordWithoutCapitals()) {
-      this.passwordContainsCapitalLetters = true;
+      this.passwordDoesNotContainsCapitalLetters = true;
     }
+
+   if(!this.isPasswordLessThan8Chars && !this.passwordDoesNotContainsCapitalLetters) {
+     this.validPasswordList = [...this.validPasswordList, password]
+
+     this.repository.sendPassword(password)
+   }
   }
 
   private isPasswordWithoutCapitals() {
