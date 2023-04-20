@@ -9,7 +9,7 @@ import {FormBuilder} from "@angular/forms";
 export class AppComponent {
 
   form = this.formBuilder.group({
-    password: []
+    password: ['', []]
   });
 
   constructor(private formBuilder: FormBuilder) {}
@@ -17,6 +17,13 @@ export class AppComponent {
   invalidMessage: String = ''
 
   validatePassword() {
-    this.invalidMessage = 'Contraseña muy corta -> 8 <';
+    const password = this.form.value.password
+
+    if(!password) return;
+
+    if( password.length <= 8 ) {
+      this.invalidMessage = 'Contraseña muy corta -> 8 <';
+    }
+
   }
 }
