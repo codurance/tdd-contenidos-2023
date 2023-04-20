@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HelloWorld } from './HelloWorld';
+import {PasswordForm} from "./PasswordForm";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HelloWorld />
+    <PasswordForm />
   </React.StrictMode>
 );
