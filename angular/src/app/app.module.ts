@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Repository} from "./repository";
 
 @NgModule({
   declarations: [
@@ -14,7 +13,7 @@ import {Repository} from "./repository";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [Repository],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
