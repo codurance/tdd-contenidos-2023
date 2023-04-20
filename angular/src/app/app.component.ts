@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,15 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
 
-  constructor() {}
+  form = this.formBuilder.group({
+    password: []
+  });
 
+  constructor(private formBuilder: FormBuilder) {}
+
+  invalidMessage: String = ''
+
+  validatePassword() {
+    this.invalidMessage = 'Contraseña muy corta -> 8 <';
+  }
 }

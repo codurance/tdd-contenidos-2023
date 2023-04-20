@@ -1,0 +1,6 @@
+<form [formGroup]="form">
+  <input type="text" placeholder="Password" />
+  <button (click)="validatePassword()">Save</button>
+</form>
+
+<div>{{ invalidMessage }}</div>
