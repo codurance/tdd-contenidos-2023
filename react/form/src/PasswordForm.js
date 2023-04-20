@@ -1,85 +1,100 @@
-import {useEffect, useState} from "react";
+import { useState } from "react";
+import "./styles.css";
 
-function PasswordWithoutNumbersMessage({passwordWithoutNumbers}) {
-    if (!passwordWithoutNumbers) {
-        return null;
-    }
+function PasswordWithoutNumbersMessage({ passwordWithoutNumbers }) {
+  if (!passwordWithoutNumbers) {
+    return null;
+  }
 
-    return <li>The password should contain numbers</li>;
+  return <li>The password should contain numbers</li>;
 }
 
-function PasswordWithoutRequiredLength({invalidPasswordLength}) {
-    if (!invalidPasswordLength) {
-        return null;
-    }
+function PasswordWithoutRequiredLength({ invalidPasswordLength }) {
+  if (!invalidPasswordLength) {
+    return null;
+  }
 
-    return <li>The password should have length of 8</li>;
+  return <li>The password should have length of 8</li>;
 }
 
-function ValidationMessages({passwordWithoutNumbers, invalidPasswordLength}) {
-    return <ul>
-        <PasswordWithoutNumbersMessage passwordWithoutNumbers={passwordWithoutNumbers}/>
-        <PasswordWithoutRequiredLength invalidPasswordLength={invalidPasswordLength}/>
-    </ul>;
+function ValidationMessages({ passwordWithoutNumbers, invalidPasswordLength }) {
+  return (
+    <ul className="validation-messages-list">
+      <PasswordWithoutNumbersMessage
+        passwordWithoutNumbers={passwordWithoutNumbers}
+      />
+      <PasswordWithoutRequiredLength
+        invalidPasswordLength={invalidPasswordLength}
+      />
+    </ul>
+  );
 }
 
-function ValidPasswordsSection({validPasswords}) {
-    return <section>
-        <h3>Valid Password saved:</h3>
-        <ul>
-            {
-                validPasswords.map(validPassword => <li key={validPassword}>{validPassword}</li>)
-            }
-        </ul>
-    </section>;
-}
-
-async function doStuff(validPassword) {
-    const response = await fetch('http://localhost:9999/secrets', {
-        body: {
-            'password': validPassword
-        },
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-
-    return response.status;
+function ValidPasswordsSection({ validPasswords }) {
+  return (
+    <section className="validated-password-list">
+      <h3 className="validated-password-list__header">
+        Listado de contraseñas validadas
+      </h3>
+      <ul className="validated-password-list__list">
+        {validPasswords.map((validPassword) => (
+          <li
+            className="validated-password-list__list-element"
+            key={validPassword}
+          >
+            {validPassword}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }
 
 export function PasswordForm() {
-    const [invalidPasswordLength, setInvalidPasswordLength] = useState(false);
-    const [passwordWithoutNumbers, setPasswordWithoutNumbers] = useState(false);
-    const [validPasswords, setValidPasswords] = useState([]);
-    const [password, setPassword] = useState('');
+  const [invalidPasswordLength, setInvalidPasswordLength] = useState(false);
+  const [passwordWithoutNumbers, setPasswordWithoutNumbers] = useState(false);
+  const [validPasswords, setValidPasswords] = useState([]);
+  const [password, setPassword] = useState("");
 
-    return (
-        <>
-            <input type='text' value={password} onChange={(event) => setPassword(event.target.value)}></input>
-            <input type='submit' onClick={validatePassword}></input>
-            <ValidationMessages passwordWithoutNumbers={passwordWithoutNumbers}
-                                invalidPasswordLength={invalidPasswordLength}/>
-            <ValidPasswordsSection validPasswords={validPasswords} />
-        </>
-    );
+  return (
+    <main>
+      <form className="password-form">
+        <input
+          className="password-form__input"
+          type="text"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        ></input>
+        <input
+          className="password-form__button"
+          type="submit"
+          onClick={validatePassword}
+        ></input>
+      </form>
+      <ValidationMessages
+        passwordWithoutNumbers={passwordWithoutNumbers}
+        invalidPasswordLength={invalidPasswordLength}
+      />
+      <ValidPasswordsSection validPasswords={validPasswords} />
+    </main>
+  );
 
-    async function validatePassword() {
-        let validPassword = true;
-        if (password.length < 8) {
-            setInvalidPasswordLength(true);
-            validPassword = false;
-        }
-
-        if (!/.*\d.*/.test(password)) {
-            setPasswordWithoutNumbers(true)
-            validPassword = false;
-        }
-
-        if (validPassword) {
-            setPasswordWithoutNumbers(false);
-            setInvalidPasswordLength(false);
-            setValidPasswords([...validPasswords, password]);
-        }
+  async function validatePassword() {
+    let validPassword = true;
+    if (password.length < 8) {
+      setInvalidPasswordLength(true);
+      validPassword = false;
     }
+
+    if (!/.*\d.*/.test(password)) {
+      setPasswordWithoutNumbers(true);
+      validPassword = false;
+    }
+
+    if (validPassword) {
+      setPasswordWithoutNumbers(false);
+      setInvalidPasswordLength(false);
+      setValidPasswords([...validPasswords, password]);
+    }
+  }
 }
