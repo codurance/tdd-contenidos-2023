@@ -58,7 +58,7 @@ export function PasswordForm() {
 
   return (
     <main>
-      <form className="password-form">
+      <form className="password-form" onSubmit={(event) => event.preventDefault()}>
         <input
           className="password-form__input"
           type="text"
