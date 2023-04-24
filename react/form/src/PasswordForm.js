@@ -1,9 +1,9 @@
 export function PasswordForm() {
     return (
         <>
-            <form>
-                <input type='text'/>
-                <button>Validar</button>
+            <form className='password-form'>
+                <input type='text' className='password-form__input'/>
+                <button className='password-form__button'>Validar</button>
             </form>
         </>);
 }
