@@ -5,14 +5,8 @@ function lengthOfPasswordIsLowerThan8(password) {
 }
 
 function doesPasswordContainNumber(password) {
-    for(const character of password) {
-        const isNumber = !isNaN(Number(password));
-
-        if (isNumber) {
-            return true;
-        }
-    }
-    return false;
+    return password.split('')
+        .some(character => !isNaN(Number(character)));
 }
 
 export function PasswordForm() {
