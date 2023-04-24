@@ -9,31 +9,37 @@ function doesPasswordContainNumber(password) {
         .some(character => !isNaN(Number(character)));
 }
 
+function validate(password) {
+    const validations = [];
+
+    if (lengthOfPasswordIsLowerThan8(password)) {
+        validations.push('La contraseña tiene menos de 8 caracteres');
+    }
+
+    if (!doesPasswordContainNumber(password)) {
+        validations.push('La contraseña no tiene números');
+    }
+    return validations;
+}
+
 export function PasswordForm() {
-    const [isPasswordShort, setIsPasswordShort] = useState(false);
     const [password, setPassword] = useState('');
-    const [passwordNotContainsNumber, setPasswordNotContainsNumber] = useState(false);
+    const [validationMessages, setValidationMessages] = useState([]);
 
     function validatePassword(event) {
         event.preventDefault();
-
-        if (lengthOfPasswordIsLowerThan8(password)) {
-            setIsPasswordShort(true);
-        }
-
-        if (!doesPasswordContainNumber(password)) {
-            setPasswordNotContainsNumber(true);
-        }
-
+        setValidationMessages(validate(password));
     }
 
     return (
         <>
             <form className='password-form' onSubmit={validatePassword}>
-                <input type='text' className='password-form__input' value={password} onChange={(event) => setPassword(event.target.value)}/>
+                <input type='text' className='password-form__input' value={password}
+                       onChange={(event) => setPassword(event.target.value)}/>
                 <button className='password-form__button' type='submit'>Validar</button>
             </form>
-            {isPasswordShort ? <span>La contraseña tiene menos de 8 caracteres</span> : null}
-            {passwordNotContainsNumber ? <span>La contraseña no tiene números</span> : null}
+            <ul>
+                {validationMessages.map((message, index) => <li key={`${message}-${index}`}>{message}</li>)}
+            </ul>
         </>);
 }
