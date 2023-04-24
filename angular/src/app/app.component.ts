@@ -17,15 +17,18 @@ export class AppComponent {
   invalidMessage: String[] = []
 
   validatePassword() {
+    this.invalidMessage = [];
     const password = this.form.value.password
 
     if(!password) return;
 
     if( password.length <= 8 ) {
       this.invalidMessage.push('Contraseña muy corta -> 8 <');
-      return;
     }
 
-    this.invalidMessage.push('La contraseña debe contener mayúscula');
+    if(!/[A-Z]/.test(password)) {
+      this.invalidMessage.push('La contraseña debe contener mayúscula');
+    }
+
   }
 }
