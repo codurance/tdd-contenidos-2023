@@ -16,19 +16,30 @@ export class AppComponent {
 
   invalidMessage: String[] = []
 
+  validPasswords: String[] = []
+
   validatePassword() {
     this.invalidMessage = [];
-    const password = this.form.value.password
+    const password = this.form.value.password || ''
 
-    if(!password) return;
+    if (this.isValidPassword(password)) {
+      this.validPasswords.push(password)
+    }
+  }
 
-    if( password.length <= 8 ) {
+  private isValidPassword(password: string) {
+    if (!password)  {
+      this.invalidMessage.push('La contraseña no puede ser vacia');
+    }
+
+    if (password.length <= 8) {
       this.invalidMessage.push('Contraseña muy corta -> 8 <');
     }
 
-    if(!/[A-Z]/.test(password)) {
+    if (!/[A-Z]/.test(password)) {
       this.invalidMessage.push('La contraseña debe contener mayúscula');
     }
 
+    return this.invalidMessage.length === 0;
   }
 }
