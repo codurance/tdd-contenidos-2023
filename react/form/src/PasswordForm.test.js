@@ -41,4 +41,22 @@ describe('Password Form', () => {
 
         screen.getByText('La contraseña tiene menos de 8 caracteres');
     });
+
+    it.each([
+        ['longPassword'],
+        ['longPasswordLonger'],
+        ['longPasswordLongest'],
+        ['longPasswordRealLong']
+    ])('Should render invalid password when password does not contain any number', (password) => {
+        render(<PasswordForm />);
+
+        act(() => {
+            const passwordInput = screen.getByRole('textbox');
+            userEvent.type(passwordInput, password);
+            const validateButton = screen.getByRole('button');
+            userEvent.click(validateButton);
+        });
+
+        screen.getByText('La contraseña no tiene números');
+    })
 })
