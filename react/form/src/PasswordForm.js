@@ -25,10 +25,16 @@ function validate(password) {
 export function PasswordForm() {
     const [password, setPassword] = useState('');
     const [validationMessages, setValidationMessages] = useState([]);
+    const [validPasswords, setValidPasswords] = useState([]);
 
     function validatePassword(event) {
         event.preventDefault();
-        setValidationMessages(validate(password));
+        const validationErrors = validate(password);
+        setValidationMessages(validationErrors);
+
+        if (validationErrors.length === 0) {
+            setValidPasswords([...validPasswords, password]);
+        }
     }
 
     return (
@@ -38,8 +44,11 @@ export function PasswordForm() {
                        onChange={(event) => setPassword(event.target.value)}/>
                 <button className='password-form__button' type='submit'>Validar</button>
             </form>
-            <ul>
+            <ul className='validation-messages-list'>
                 {validationMessages.map((message, index) => <li key={`${message}-${index}`}>{message}</li>)}
+            </ul>
+            <ul className='validated-password-list__list'>
+                {validPasswords.map((password, index) => <li key={`${password}-${index}`} className='validated-password-list__list-element'>{password}</li>)}
             </ul>
         </>);
 }

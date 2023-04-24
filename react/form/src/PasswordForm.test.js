@@ -73,4 +73,37 @@ describe('Password Form', () => {
         screen.getByText('La contraseña tiene menos de 8 caracteres');
         screen.getByText('La contraseña no tiene números');
     });
+
+    it('Should show valid password when a valid password has been submit', () => {
+        render(<PasswordForm />);
+
+        act(() => {
+            const passwordInput = screen.getByRole('textbox');
+            userEvent.type(passwordInput, 'validPassword1');
+            const validateButton = screen.getByRole('button');
+            userEvent.click(validateButton);
+        });
+
+        screen.getByText('validPassword1');
+    });
+
+    it('Should show all validated password filled in by the user', () => {
+        render(<PasswordForm />);
+
+        const passwordInput = screen.getByRole('textbox');
+        const validateButton = screen.getByRole('button');
+
+        act(() => {
+            userEvent.type(passwordInput, 'validPassword1');
+            userEvent.click(validateButton);
+            userEvent.clear(passwordInput);
+        });
+        act(() => {
+            userEvent.type(passwordInput, 'validPassword2');
+            userEvent.click(validateButton);
+        });
+
+        screen.getByText('validPassword1');
+        screen.getByText('validPassword2');
+    });
 })
