@@ -47,7 +47,7 @@ describe('Password validation kata', () => {
     expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
   });
 
-  it('should render not render message if password is greater than 8 chars', async () => {
+  it('should not render message if password is greater than 8 chars', async () => {
     const {queryByText, getByPlaceholderText, getByText} = await screen
 
     await userEvent.type(getByPlaceholderText('Password'), '123456789')
@@ -55,5 +55,26 @@ describe('Password validation kata', () => {
     fireEvent.click(getByText('Save'));
 
     expect(queryByText('Contraseña muy corta -> 8 <')).not.toBeInTheDocument();
+  });
+
+  it('should render message if password dos not contain upper case char', async () => {
+    const {findByText, getByPlaceholderText, getByText} = await screen
+
+    await userEvent.type(getByPlaceholderText('Password'), '123456789')
+
+    fireEvent.click(getByText('Save'));
+
+    expect(await findByText('La contraseña debe contener mayúscula')).toBeInTheDocument();
+  });
+
+  it('should render message if password dos not contain upper case char and password is shorted than 8 chars', async () => {
+    const {findByText, getByPlaceholderText, getByText} = await screen
+
+    await userEvent.type(getByPlaceholderText('Password'), '12345')
+
+    fireEvent.click(getByText('Save'));
+
+    expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
+    expect(await findByText('La contraseña debe contener mayúscula')).toBeInTheDocument();
   });
 });

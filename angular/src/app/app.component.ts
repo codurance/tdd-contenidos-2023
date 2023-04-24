@@ -14,7 +14,7 @@ export class AppComponent {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  invalidMessage: String = ''
+  invalidMessage: String[] = []
 
   validatePassword() {
     const password = this.form.value.password
@@ -22,8 +22,10 @@ export class AppComponent {
     if(!password) return;
 
     if( password.length <= 8 ) {
-      this.invalidMessage = 'Contraseña muy corta -> 8 <';
+      this.invalidMessage.push('Contraseña muy corta -> 8 <');
+      return;
     }
 
+    this.invalidMessage.push('La contraseña debe contener mayúscula');
   }
 }

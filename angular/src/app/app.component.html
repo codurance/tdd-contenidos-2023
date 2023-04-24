@@ -3,4 +3,6 @@
   <button type="submit" >Save</button>
 </form>
 
-<div>{{ invalidMessage }}</div>
+<div *ngFor="let error of invalidMessage">
+  {{ error }}
+</div>
