@@ -11,7 +11,3 @@ defineProps<{
       <span>{{ msg }}</span>
     </div>
 </template>
-
-<style scoped>
-@import 'src/styles/styles.css';
-</style>
