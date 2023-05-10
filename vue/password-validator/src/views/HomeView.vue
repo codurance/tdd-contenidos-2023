@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import PasswordValidator from "@/components/PasswordValidatorForm.vue";
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <PasswordValidator msg="Welcome to the password validator" />
   </main>
 </template>
