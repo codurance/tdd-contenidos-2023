@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
+  "moduleResolution":"node",
   "compilerOptions": {
     "composite": true,
     "lib": [],
