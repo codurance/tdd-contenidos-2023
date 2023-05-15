@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PasswordValidatorForm from "@/components/PasswordValidatorForm.vue";
 </script>
 
 <template>
