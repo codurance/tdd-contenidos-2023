@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 :root {
 
   /* Colors: */
@@ -9,8 +11,8 @@
   --all-boxes-gray: #00000029;
 
   /* Font/text values: */
-  --font-family-lists: 'Trebuchet MS';
-  --font-family: 'Trebuchet MS' ;
+  --font-family-lists: 'Montserrat';
+  --font-family: 'Montserrat' ;
 
   /* Component width: */
   --wide-width: 750px;
@@ -25,6 +27,7 @@ body {
 
 * {
   box-sizing: border-box;
+  font-family: var(--font-family);
 }
 
 main {
@@ -123,4 +126,3 @@ main {
   font-size: 16px;
   line-height: 25px;
 }
-
