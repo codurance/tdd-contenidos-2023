@@ -5,8 +5,6 @@
   <h1>Password Validator</h1>
   <div>
     <form class="password-form">
-      <input type="text" class="password-form__input"/>
-      <button class="password-form__button"></button>
     </form>
   </div>
 </template>
