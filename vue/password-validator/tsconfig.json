@@ -16,7 +16,9 @@
     "noEmit": true,
     "types": [
       "webpack-env",
-      "jest"
+      "jest",
+      "node",
+      "@testing-library/jest-dom"
     ],
     "paths": {
       "@/*": [
