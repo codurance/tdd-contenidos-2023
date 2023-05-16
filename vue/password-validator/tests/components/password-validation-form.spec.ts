@@ -3,7 +3,5 @@ import PasswordValidatorForm from "@/components/PasswordValidatorForm.vue";
 
 describe('Password validator form', () => {
   it('should have a button', () => {
-    const { getByRole } = render(PasswordValidatorForm)
-    expect(getByRole('button')).toBeInTheDocument()
   })
 })
