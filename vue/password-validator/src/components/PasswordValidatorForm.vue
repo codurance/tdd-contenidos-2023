@@ -5,7 +5,7 @@
   <h1>Password Validator</h1>
   <div>
     <form class="password-form">
-      <button role="button" class="password-form__button"></button>
+      <button role="button" class="password-form__button">Enviar consulta</button>
     </form>
   </div>
 </template>
