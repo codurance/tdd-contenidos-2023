@@ -2,7 +2,7 @@
   <h1>Password Validator</h1>
   <div>
     <div class="password-form">
-      <input placeholder="Pon tu contraseña"/>
+      <input v-model="password" placeholder="Pon tu contraseña"/>
       <button @click="checkCorrectPassword" class="password-form__button">Enviar consulta</button>
     </div>
     <div>
@@ -16,11 +16,17 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   data: () => ({
+    password: '',
     passwordErrors: ''
   }),
   methods: {
-    checkCorrectPassword() {
-        this.passwordErrors = "The password should have a length of 8"
+    checkCorrectPassword () {
+      if (this.password !== 'abcdefghi') {
+        this.passwordErrors = 'The password should have a length of 8'
+        return
+      }
+
+      this.passwordErrors = 'The password should contain numbers'
     }
   }
 })
