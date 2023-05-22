@@ -1,10 +1,10 @@
 <template>
   <h1>Password Validator</h1>
   <div>
-    <form class="password-form">
-      <input id = "passwordInput" role="input" placeholder="Pon tu contraseña"/>
-      <a role="button" @click="checkCorrectPassword" class="password-form__button">Enviar consulta</a>
-    </form>
+    <div class="password-form">
+      <input placeholder="Pon tu contraseña"/>
+      <button @click="checkCorrectPassword" class="password-form__button">Enviar consulta</button>
+    </div>
     <div>
       <span v-if="passwordErrors">{{ passwordErrors }}</span>
     </div>
