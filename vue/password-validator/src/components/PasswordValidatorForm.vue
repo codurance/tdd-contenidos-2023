@@ -27,7 +27,9 @@ export default defineComponent({
         this.passwordErrors.push('The password should contain numbers')
       }
 
-      this.passwordErrors.push('The password should have a length of 8')
+      if (this.password.length < 8) {
+        this.passwordErrors.push('The password should have a length of 8')
+      }
     }
   }
 })
