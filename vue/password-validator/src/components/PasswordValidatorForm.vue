@@ -23,6 +23,8 @@ export default defineComponent({
   }),
   methods: {
     checkCorrectPassword () {
+      this.passwordErrors = new Array<string>()
+
       if (!this.password.match(/[0-9]+/)) {
         this.passwordErrors.push('The password should contain numbers')
       }

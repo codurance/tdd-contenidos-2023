@@ -46,4 +46,12 @@ describe('Password validator Form', () => {
     expect(await passwordValidatorFormWrapper.queryByText('The password should contain numbers')).not.toBeInTheDocument()
     expect(await passwordValidatorFormWrapper.queryByText('The password should have a length of 8')).not.toBeInTheDocument()
   })
+
+  it ('should not repeat errors after first submit', async() => {
+    await userEvent.keyboard('abcdefghi')
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+
+    expect(await passwordValidatorFormWrapper.queryByText('The password should contain numbers')).toBeInTheDocument()
+  })
 })
