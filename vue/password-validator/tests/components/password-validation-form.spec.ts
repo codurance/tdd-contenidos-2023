@@ -18,4 +18,15 @@ describe('Password validator Form', () => {
 
     expect(getByText('The password should have a length of 8')).toBeInTheDocument()
   })
+
+  it('should validate a password lacking numbers', async() => {
+    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
+    const input = getByPlaceholderText('Pon tu contraseña')
+    expect(input).toBeInTheDocument()
+
+    await userEvent.keyboard("abcdefghi")
+    await userEvent.click(getByText('Enviar consulta'))
+
+    expect(getByText('The password should contain numbers')).toBeInTheDocument()
+  })
 })
