@@ -5,6 +5,7 @@
   "scripts": {
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "lint_fix": "vue-cli-service lint --fix",
     "belial": "yarn lint && yarn typecheck && yarn test",
     "dev": "vue-cli-service serve",
     "test": "vue-cli-service test:unit",
