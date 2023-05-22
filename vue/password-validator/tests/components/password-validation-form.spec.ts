@@ -10,7 +10,7 @@ describe('Password validator Form', () => {
 
   it('should validate a too short password', async () => {
     const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
-    const input = getByPlaceholderText('Pon tú contraseña')
+    const input = getByPlaceholderText('Pon tu contraseña')
     expect(input).toBeInTheDocument()
 
     await userEvent.keyboard("short1")

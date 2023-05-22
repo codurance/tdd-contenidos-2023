@@ -2,8 +2,12 @@
   <h1>Password Validator</h1>
   <div>
     <form class="password-form">
-      <button role="button" class="password-form__button">Enviar consulta</button>
+      <input id = "passwordInput" role="input" placeholder="Pon tu contraseña"/>
+      <a role="button" @click="checkCorrectPassword" class="password-form__button">Enviar consulta</a>
     </form>
+    <div>
+      <span v-if="passwordErrors">{{ passwordErrors }}</span>
+    </div>
   </div>
 </template>
 
@@ -12,6 +16,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   data: () => ({
-  })
+    passwordErrors: ''
+  }),
+  methods: {
+    checkCorrectPassword() {
+        this.passwordErrors = "The password should have a length of 8"
+    }
+  }
 })
 </script>
