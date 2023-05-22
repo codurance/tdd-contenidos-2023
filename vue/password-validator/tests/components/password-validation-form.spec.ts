@@ -32,4 +32,12 @@ describe('Password validator Form', () => {
 
     expect(passwordValidatorFormWrapper.getByText('The password should contain numbers')).toBeInTheDocument()
   })
+
+  it ('should validate a too short password with no numbers', async() => {
+    await userEvent.keyboard(" ")
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+
+    expect(passwordValidatorFormWrapper.getByText('The password should have a length of 8')).toBeInTheDocument()
+    expect(passwordValidatorFormWrapper.getByText('The password should contain numbers')).toBeInTheDocument()
+  })
 })
