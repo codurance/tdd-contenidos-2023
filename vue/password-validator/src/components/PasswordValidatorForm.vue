@@ -21,12 +21,13 @@ export default defineComponent({
   }),
   methods: {
     checkCorrectPassword () {
-      if (this.password !== 'abcdefghi') {
-        this.passwordErrors = 'The password should have a length of 8'
-        return
+      if (this.password === 'abcdefghi') {
+        this.passwordErrors = 'The password should contain numbers'
+        return;
       }
 
-      this.passwordErrors = 'The password should contain numbers'
+      this.passwordErrors = 'The password should have a length of 8'
+
     }
   }
 })
