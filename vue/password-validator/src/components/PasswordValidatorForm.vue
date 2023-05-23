@@ -6,7 +6,7 @@
       <button @click="checkCorrectPassword" class="password-form__button">Enviar consulta</button>
     </div>
     <div class='validation-messages-list'>
-        <ul v-if="passwordErrors.length > 0">
+        <ul>
           <li :key="errors" v-for="errors in passwordErrors">{{ errors }}</li>
         </ul>
     </div>
@@ -19,8 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-type Errors = string[]
+import { defineComponent } from 'vue'
 export default defineComponent({
   data: () => ({
     password: '',
@@ -30,21 +29,23 @@ export default defineComponent({
   methods: {
     checkCorrectPassword () {
       this.passwordErrors = new Array<string>()
-      let errors = false
 
       if (!this.password.match(/[0-9]+/)) {
         this.passwordErrors.push('The password should contain numbers')
-        errors = true
       }
 
       if (this.password.length < 8) {
         this.passwordErrors.push('The password should have a length of 8')
-        errors = true
       }
 
-      if (!errors) {
-        this.passwordsValid.push(this.password)
+      if (this.hasThePasswordErrors()) {
+        return
       }
+
+      this.passwordsValid.push(this.password)
+    },
+    hasThePasswordErrors () {
+      return this.passwordErrors.length !== 0
     }
   }
 })
