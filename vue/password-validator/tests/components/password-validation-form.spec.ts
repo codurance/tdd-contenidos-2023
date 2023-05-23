@@ -72,7 +72,6 @@ describe('Password validator Form', () => {
 
     expect(await passwordValidatorFormWrapper.queryByText('The password should contain numbers')).not.toBeInTheDocument()
     expect(await passwordValidatorFormWrapper.queryByText('The password should have a length of 8')).not.toBeInTheDocument()
-
     expect(await passwordValidatorFormWrapper.queryByText(password)).toBeInTheDocument()
   })
 })

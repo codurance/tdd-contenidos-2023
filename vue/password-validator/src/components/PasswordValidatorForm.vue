@@ -5,13 +5,13 @@
       <input v-model="password" placeholder="Pon tu contraseña"/>
       <button @click="checkCorrectPassword" class="password-form__button">Enviar consulta</button>
     </div>
-    <div class='validation-messages-list'>
-        <ul>
+    <div>
+        <ul class='validation-messages-list'>
           <li :key="errors" v-for="errors in passwordErrors">{{ errors }}</li>
         </ul>
     </div>
-    <article class='validated-password-list__list'>
-      <ul>
+    <article>
+      <ul class='validated-password-list__list'>
         <li :key="validPassword" v-for="validPassword in passwordsValid">{{ validPassword }}</li>
       </ul>
     </article>
