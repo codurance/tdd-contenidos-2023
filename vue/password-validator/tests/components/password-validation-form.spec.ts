@@ -13,45 +13,64 @@ describe('Password validator Form', () => {
     await userEvent.click(input)
   })
 
-  it('should have a button', () => {
-    expect(passwordValidatorFormWrapper.getByText('Enviar consulta')).toBeInTheDocument()
-  })
-
-  it('should validate a too short password', async () => {
-    await userEvent.keyboard('short1')
-    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
-
-    expect(passwordValidatorFormWrapper.getByText('The password should have a length of 8')).toBeInTheDocument()
-  })
-
-  it('should validate a password lacking numbers', async () => {
-    await userEvent.keyboard('abcdefghi')
-    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
-
-    expect(passwordValidatorFormWrapper.getByText('The password should contain numbers')).toBeInTheDocument()
-  })
-
-  it('should validate a too short password with no numbers', async () => {
-    await userEvent.keyboard(' ')
-    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
-
-    expect(passwordValidatorFormWrapper.getByText('The password should contain numbers')).toBeInTheDocument()
-    expect(passwordValidatorFormWrapper.getByText('The password should have a length of 8')).toBeInTheDocument()
-  })
-
-  it('should validate a too short password with no numbers', async () => {
-    await userEvent.keyboard('4 super valid password')
-    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
-
-    expect(await passwordValidatorFormWrapper.queryByText('The password should contain numbers')).not.toBeInTheDocument()
-    expect(await passwordValidatorFormWrapper.queryByText('The password should have a length of 8')).not.toBeInTheDocument()
-  })
-
-  it ('should not repeat errors after first submit', async() => {
-    await userEvent.keyboard('abcdefghi')
+  it('should not repeat errors after first submit', async () => {
+    await userEvent.keyboard('a long password without numbers')
     await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
     await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
 
     expect(await passwordValidatorFormWrapper.queryByText('The password should contain numbers')).toBeInTheDocument()
+  })
+
+  it('should validate a too short password', async () => {
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+
+    expect(passwordValidatorFormWrapper.getByText('The password should contain numbers')).toBeInTheDocument()
+    expect(passwordValidatorFormWrapper.getByText('The password should have a length of 8')).toBeInTheDocument()
+  })
+
+  it.each([
+    [' '],
+    ['short'],
+    ['pass']
+  ])('should validate a too short password without numbers when input is %s', async (password: string) => {
+    await userEvent.keyboard(password)
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+
+    expect(passwordValidatorFormWrapper.getByText('The password should contain numbers')).toBeInTheDocument()
+    expect(passwordValidatorFormWrapper.getByText('The password should have a length of 8')).toBeInTheDocument()
+  })
+
+  it.each([
+    ['abcdefghi'],
+    ['password'],
+    ['a password with the right length']
+  ])('should show errors when the password {%s} does not have numbers', async (password: string) => {
+    await userEvent.keyboard(password)
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+
+    expect(passwordValidatorFormWrapper.getByText('The password should contain numbers')).toBeInTheDocument()
+  })
+
+  it.each([
+    ['1234567'],
+    ['short1'],
+    ['1234']
+  ])('should show error password to short when password is {%s}', async (password: string) => {
+    await userEvent.keyboard(password)
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+
+    expect(passwordValidatorFormWrapper.getByText('The password should have a length of 8')).toBeInTheDocument()
+  })
+
+  it.each([
+    ['4 super valid password'],
+    ['4 valid password'],
+    ['passw0rd']
+  ])('should validate a valid password when the password has the right length and has numbers {%s}', async (password: string) => {
+    await userEvent.keyboard(password)
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+
+    expect(await passwordValidatorFormWrapper.queryByText('The password should contain numbers')).not.toBeInTheDocument()
+    expect(await passwordValidatorFormWrapper.queryByText('The password should have a length of 8')).not.toBeInTheDocument()
   })
 })
