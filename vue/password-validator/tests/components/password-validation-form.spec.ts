@@ -73,4 +73,12 @@ describe('Password validator Form', () => {
     expect(await passwordValidatorFormWrapper.queryByText('The password should contain numbers')).not.toBeInTheDocument()
     expect(await passwordValidatorFormWrapper.queryByText('The password should have a length of 8')).not.toBeInTheDocument()
   })
+
+  it.each([
+    ['4 super valid password']
+  ])('should validate a valid password when the password has the right length and has numbers {%s} and added to the password listing', async (password: string) => {
+    await userEvent.keyboard(password)
+    await userEvent.click(passwordValidatorFormWrapper.getByText('Enviar consulta'))
+    expect(await passwordValidatorFormWrapper.queryByText(password)).toBeInTheDocument()
+  })
 })
