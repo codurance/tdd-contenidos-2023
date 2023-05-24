@@ -1,20 +1,23 @@
-import { render } from '@testing-library/vue'
+import { render, RenderResult } from '@testing-library/vue'
 import PasswordValidatorForm from '@/components/PasswordValidatorForm.vue'
 import userEvent from '@testing-library/user-event'
 
 describe('Password validator form', () => {
+  let passwordValidatorForm: RenderResult
+  beforeEach(async () => {
+    passwordValidatorForm = render(PasswordValidatorForm)
+    await userEvent.click(passwordValidatorForm.getByPlaceholderText('Introduce tu contraseña'))
+  })
+
   it.each([
     ['short1'],
     ['pass4'],
     ['1234567']
   ])('should show proper error with too short password {%s}', async (password: string) => {
-    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
-
-    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
     await userEvent.keyboard(password)
-    await userEvent.click(getByText('Enviar consulta'))
+    await userEvent.click(passwordValidatorForm.getByText('Enviar consulta'))
 
-    expect(getByText('The password should have length of 8'))
+    expect(passwordValidatorForm.getByText('The password should have length of 8'))
   })
 
   it.each([
@@ -22,13 +25,10 @@ describe('Password validator form', () => {
     ['invalidpassword'],
     ['a long password without numbers']
   ])('should show proper error when password is {%s}', async (password:string) => {
-    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
-
-    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
     await userEvent.keyboard(password)
-    await userEvent.click(getByText('Enviar consulta'))
+    await userEvent.click(passwordValidatorForm.getByText('Enviar consulta'))
 
-    expect(getByText('The password should contain numbers'))
+    expect(passwordValidatorForm.getByText('The password should contain numbers'))
   })
 
   it.each([
@@ -36,34 +36,26 @@ describe('Password validator form', () => {
     ['p4assword'],
     ['p4assw0rd']
   ])('should not show errors when the password is valid {%s}', async (password: string) => {
-    const { getByPlaceholderText, queryByText, getByText } = render(PasswordValidatorForm)
-
-    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
     await userEvent.keyboard(password)
+    await userEvent.click(passwordValidatorForm.getByText('Enviar consulta'))
 
-    await userEvent.click(getByText('Enviar consulta'))
-
-    expect(await queryByText('The password should have length of 8')).not.toBeInTheDocument()
-    expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
-    expect(getByText(password)).toBeInTheDocument()
+    expect(await passwordValidatorForm.queryByText('The password should have length of 8')).not.toBeInTheDocument()
+    expect(await passwordValidatorForm.queryByText('The password should contain numbers')).not.toBeInTheDocument()
+    expect(passwordValidatorForm.getByText(password)).toBeInTheDocument()
   })
 
   it('should show both errors when there is no password', async () => {
-    const { getByText } = render(PasswordValidatorForm)
+    await userEvent.click(passwordValidatorForm.getByText('Enviar consulta'))
 
-    await userEvent.click(getByText('Enviar consulta'))
-
-    expect(getByText('The password should have length of 8'))
-    expect(getByText('The password should contain numbers'))
+    expect(passwordValidatorForm.getByText('The password should have length of 8'))
+    expect(passwordValidatorForm.getByText('The password should contain numbers'))
   })
 
   it('should not repeat error messages', async () => {
-    const { getByText } = render(PasswordValidatorForm)
+    await userEvent.click(passwordValidatorForm.getByText('Enviar consulta'))
+    await userEvent.click(passwordValidatorForm.getByText('Enviar consulta'))
 
-    await userEvent.click(getByText('Enviar consulta'))
-    await userEvent.click(getByText('Enviar consulta'))
-
-    expect(getByText('The password should have length of 8')).toBeInTheDocument()
-    expect(getByText('The password should contain numbers')).toBeInTheDocument()
+    expect(passwordValidatorForm.getByText('The password should have length of 8')).toBeInTheDocument()
+    expect(passwordValidatorForm.getByText('The password should contain numbers')).toBeInTheDocument()
   })
 })
