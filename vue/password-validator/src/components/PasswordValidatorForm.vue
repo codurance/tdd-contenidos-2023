@@ -11,6 +11,9 @@
     <ul>
       <li :key="error" v-for="error in errors">{{ error }}</li>
     </ul>
+    <ul>
+      <li :key="validPassword" v-for="validPassword in validPasswords">{{ validPassword }}</li>
+    </ul>
   </div>
 </template>
 
@@ -20,6 +23,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data: () => ({
     password: '',
+    validPasswords: new Array<string>(),
     errors: new Array<string>()
   }),
   methods: {
@@ -31,6 +35,10 @@ export default defineComponent({
 
       if (this.hasPasswordEnoughLength()) {
         this.errors.push('The password should have length of 8')
+      }
+
+      if (this.errors.length === 0) {
+        this.validPasswords.push(this.password)
       }
     },
     hasPasswordAnyNumber () {
