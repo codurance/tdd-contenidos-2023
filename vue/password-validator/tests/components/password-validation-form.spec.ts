@@ -19,4 +19,14 @@ describe('Password validator form', () => {
 
     expect(getByText('The password should have length of 8'))
   })
+
+  it('should show proper error when password has no numbers', async () => {
+    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
+
+    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
+    await userEvent.keyboard('password')
+    await userEvent.click(getByText('Enviar consulta'))
+
+    expect(getByText('The password should contain numbers'))
+  })
 })
