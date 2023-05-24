@@ -5,7 +5,7 @@ describe('Password validator form', () => {
   it('should have a button and an input', () => {
     const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
 
-    expect(getByText('Envíar consulta')).toBeInTheDocument()
-    expect(getByPlaceholderText('Introduce tú contraseña')).toBeInTheDocument()
+    expect(getByText('Enviar consulta')).toBeInTheDocument()
+    expect(getByPlaceholderText('Introduce tu contraseña')).toBeInTheDocument()
   })
 })
