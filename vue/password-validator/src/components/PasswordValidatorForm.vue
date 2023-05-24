@@ -8,12 +8,15 @@
       <input class = "password-form__input" v-model="password" placeholder="Introduce tu contraseña" />
       <button class = "password-form__button" @click="validatePassword">Enviar consulta</button>
     </div>
-    <ul>
+    <ul class="validation-messages-list">
       <li :key="error" v-for="error in errors">{{ error }}</li>
     </ul>
-    <ul>
-      <li :key="validPassword" v-for="validPassword in validPasswords">{{ validPassword }}</li>
-    </ul>
+
+    <article>
+      <ul class="validated-password-list__list">
+        <li :key="validPassword" v-for="validPassword in validPasswords">{{ validPassword }}</li>
+      </ul>
+    </article>
   </div>
 </template>
 
