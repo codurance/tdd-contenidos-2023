@@ -4,10 +4,10 @@
 <template>
   <h1>Password Validator</h1>
   <div>
-    <form class="password-form">
-      <input placeholder="Introduce tu contraseña" />
-      <button>Enviar consulta</button>
-    </form>
+    <div class="password-form">
+      <input class = "password-form__input" placeholder="Introduce tu contraseña" />
+      <button class = "password-form__button">Enviar consulta</button>
+    </div>
   </div>
 </template>
 
