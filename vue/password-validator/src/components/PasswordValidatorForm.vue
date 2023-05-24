@@ -22,12 +22,7 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
-      if (this.password === 'password') {
-        this.error = 'The password should contain numbers'
-        return
-      }
-
-      if (this.password === 'invalidpassword') {
+      if (!this.password.match(/\d+/)) {
         this.error = 'The password should contain numbers'
         return
       }
