@@ -1,4 +1,4 @@
-import { render } from '@testing-library/vue'
+import {queryByText, render} from '@testing-library/vue'
 import PasswordValidatorForm from '@/components/PasswordValidatorForm.vue'
 import userEvent from '@testing-library/user-event'
 
@@ -36,14 +36,14 @@ describe('Password validator form', () => {
   })
 
   it('should not show errors when the password is valid', async () => {
-    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
+    const { getByPlaceholderText, queryByText, getByText } = render(PasswordValidatorForm)
 
     await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
     await userEvent.keyboard('passw0rd')
 
     await userEvent.click(getByText('Enviar consulta'))
 
-    expect(getByText('The password should have length of 8')).not.toBeInTheDocument()
-    expect(getByText('The password should contain numbers')).not.toBeInTheDocument()
+    expect(await queryByText('The password should have length of 8')).not.toBeInTheDocument()
+    expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
   })
 })
