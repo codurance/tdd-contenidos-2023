@@ -24,6 +24,7 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
+      this.errors = new Array<string>()
       if (!this.hasPasswordAnyNumber()) {
         this.errors.push('The password should contain numbers')
       }

@@ -48,7 +48,7 @@ describe('Password validator form', () => {
   })
 
   it('should not repeat error messages', async () => {
-    const { queryByText, getByText } = render(PasswordValidatorForm)
+    const { getByText } = render(PasswordValidatorForm)
 
     await userEvent.click(getByText('Enviar consulta'))
     await userEvent.click(getByText('Enviar consulta'))
