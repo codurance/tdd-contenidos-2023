@@ -46,4 +46,14 @@ describe('Password validator form', () => {
     expect(await queryByText('The password should have length of 8')).not.toBeInTheDocument()
     expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
   })
+
+  it('should not repeat error messages', async () => {
+    const { queryByText, getByText } = render(PasswordValidatorForm)
+
+    await userEvent.click(getByText('Enviar consulta'))
+    await userEvent.click(getByText('Enviar consulta'))
+
+    expect(getByText('The password should have length of 8')).toBeInTheDocument()
+    expect(getByText('The password should contain numbers')).toBeInTheDocument()
+  })
 })
