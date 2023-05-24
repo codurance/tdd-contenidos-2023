@@ -40,9 +40,12 @@ export default defineComponent({
         this.errors.push('The password should have length of 8')
       }
 
-      if (this.errors.length === 0) {
+      if (this.hasErrors()) {
         this.validPasswords.push(this.password)
       }
+    },
+    hasErrors () {
+      return this.errors.length === 0
     },
     hasPasswordAnyNumber () {
       return this.password.match(/\d+/)
