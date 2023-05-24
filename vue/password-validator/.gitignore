@@ -25,3 +25,6 @@ pnpm-debug.log*
 # Storybook
 build-storybook.log
 storybook-static
+yarn.lock
+.yarn
+.yarnrc.yml
