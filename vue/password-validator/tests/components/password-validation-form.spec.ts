@@ -3,7 +3,6 @@ import PasswordValidatorForm from '@/components/PasswordValidatorForm.vue'
 import userEvent from '@testing-library/user-event'
 
 describe('Password validator form', () => {
-
   it('should show proper error with too short password', async () => {
     const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
 
@@ -27,12 +26,24 @@ describe('Password validator form', () => {
     expect(getByText('The password should contain numbers'))
   })
 
-  it('should show both errors when there is no password', async() => {
+  it('should show both errors when there is no password', async () => {
     const { getByText } = render(PasswordValidatorForm)
 
     await userEvent.click(getByText('Enviar consulta'))
 
     expect(getByText('The password should have length of 8'))
     expect(getByText('The password should contain numbers'))
+  })
+
+  it('should not show errors when the password is valid', async () => {
+    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
+
+    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
+    await userEvent.keyboard('passw0rd')
+
+    await userEvent.click(getByText('Enviar consulta'))
+
+    expect(getByText('The password should have length of 8')).not.toBeInTheDocument()
+    expect(getByText('The password should contain numbers')).not.toBeInTheDocument()
   })
 })

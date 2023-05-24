@@ -28,18 +28,11 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
-      if (this.password === '') {
-        this.errors.push('The password should have length of 8')
-        this.errors.push('The password should contain numbers')
-        return
-      }
-
       if (!this.password.match(/\d+/)) {
-        this.error = 'The password should contain numbers'
-        return
+        this.errors.push('The password should contain numbers')
       }
 
-      this.error = 'The password should have length of 8'
+      this.errors.push('The password should have length of 8')
     }
   }
 })
