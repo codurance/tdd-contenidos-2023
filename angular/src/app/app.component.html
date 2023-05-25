@@ -1,1 +1,6 @@
-<h1>my text</h1>
+<form [formGroup]="formGroup" (ngSubmit)="validatePassword()">
+  <input type="text" formControlName="password" placeholder="Password" />
+  <button type="submit">Save</button>
+</form>
+
+<p>{{ error }}</p>
