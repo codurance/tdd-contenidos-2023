@@ -9,7 +9,7 @@ import {FormBuilder} from "@angular/forms";
 export class AppComponent {
   error: string = ''
 
-  formGroup = this.formBuilder.group({
+  form = this.formBuilder.group({
     password: ['', []]
   });
 

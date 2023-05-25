@@ -41,12 +41,14 @@ describe('Password validation kata', () => {
   });
 
   it('password that is longer than 8 should not display error message', async () => {
-    const {getByPlaceholderText, getByText, findByText} = await buildComponent()
+    const {getByPlaceholderText, queryByText, findByText} = await buildComponent()
 
     await userEvent.type(getByPlaceholderText('Password'), '123456789');
 
-    await userEvent.click(await findByText('Save'));
+    fireEvent.click(await findByText('Save'));
 
-    expect(() => getByText('Contraseña muy corta -> 8 <')).toThrow('Unable to find an element');
+    await waitFor(() => {
+      expect(queryByText('Contraseña muy corta -> 8 <')).not.toBeInTheDocument();
+    })
   });
 });
