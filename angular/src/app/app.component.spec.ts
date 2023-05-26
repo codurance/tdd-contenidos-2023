@@ -49,4 +49,36 @@ describe('Password validation kata', () => {
       expect(queryByText('Contraseña muy corta -> 8 <')).not.toBeInTheDocument();
     });
   });
+
+  it('should print error message when password have not any CAP', async () => {
+    const { getByText, getByPlaceholderText } = await buildComponent();
+
+    await userEvent.type(getByPlaceholderText('Password'), 'zxcvbnmas');
+    fireEvent.click(getByText('Save'));
+
+    expect(getByText('La contraseña debe contener mayúsculas')).toBeInTheDocument()
+  })
+
+  it('should not print error message when password have any CAP', async () => {
+    const { getByText, getByPlaceholderText, queryByText } = await buildComponent();
+
+    await userEvent.type(getByPlaceholderText('Password'), 'abcabc');
+    fireEvent.click(getByText('Save'));
+
+    await waitFor(() => {
+      expect(queryByText('La contraseña debe contener mayúsculas')).not.toBeInTheDocument()
+    })
+  })
+
+
+  it('should print password too short and password without caps', async () => {
+    const { getByText, getByPlaceholderText, queryByText } = await buildComponent();
+
+    await userEvent.type(getByPlaceholderText('Password'), 'abc123');
+    fireEvent.click(getByText('Save'));
+
+    expect(getByText('Contraseña muy corta -> 8 <')).toBeInTheDocument()
+    expect(getByText('La contraseña debe contener mayúsculas')).toBeInTheDocument()
+  })
+
 });
