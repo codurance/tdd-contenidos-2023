@@ -1,6 +1,5 @@
-<form [formGroup]="form" (ngSubmit)="validatePassword()">
-  <input type="text" formControlName="password" placeholder="Password" />
-  <button type="submit">Save</button>
+<form [formGroup]="form">
+<input type="text" placeholder="Password" />
+<button>Save</button>
 </form>
-
-<p>{{ error }}</p>
+<p>Contraseña muy corta -> 8 <</p>

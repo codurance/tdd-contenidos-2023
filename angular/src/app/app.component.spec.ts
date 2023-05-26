@@ -1,7 +1,8 @@
-import {fireEvent, render, waitFor} from "@testing-library/angular";
+import {fireEvent, render} from "@testing-library/angular";
 import {ReactiveFormsModule} from "@angular/forms";
 import {AppComponent} from "./app.component";
 import userEvent from "@testing-library/user-event";
+import {waitFor} from "@testing-library/dom";
 
 function buildComponent() {
   return render(AppComponent, {
@@ -12,13 +13,11 @@ function buildComponent() {
 describe('Password validation kata', () => {
   it('should render password input', async () => {
     const { getByPlaceholderText } = await buildComponent();
-
     expect(getByPlaceholderText('Password')).toBeInTheDocument();
   });
 
   it('should render save button', async () => {
     const { getByText } = await buildComponent();
-
     expect(getByText('Save')).toBeInTheDocument();
   });
 
@@ -27,28 +26,27 @@ describe('Password validation kata', () => {
     '12',
     '123',
     '1234',
-    '12456',
+    '12345',
+    '123456',
     '1234567',
-    '12345678',
-  ])('should validate short password (less than 8) %s', async (password: string) => {
-    const {getByText, getByPlaceholderText, findByText} = await buildComponent()
+    '12345678'
+  ])('should print error message when password is shorter than 8 chars (%s)', async (password: string) => {
+    const {getByText, getByPlaceholderText} = await buildComponent();
 
     await userEvent.type(getByPlaceholderText('Password'), password);
+    fireEvent.click(getByText('Save'));
 
-    await userEvent.click(getByText('Save'));
-
-    expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
+    expect(getByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
   });
 
-  it('password that is longer than 8 should not display error message', async () => {
-    const {getByPlaceholderText, queryByText, findByText} = await buildComponent()
+  it('should not print error message when password is longer than 8 chars', async () => {
+    const {getByText, getByPlaceholderText, queryByText} = await buildComponent();
 
     await userEvent.type(getByPlaceholderText('Password'), '123456789');
-
-    fireEvent.click(await findByText('Save'));
+    fireEvent.click(getByText('Save'));
 
     await waitFor(() => {
       expect(queryByText('Contraseña muy corta -> 8 <')).not.toBeInTheDocument();
-    })
+    });
   });
 });
