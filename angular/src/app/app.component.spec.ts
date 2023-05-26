@@ -62,7 +62,7 @@ describe('Password validation kata', () => {
   it('should not print error message when password have any CAP', async () => {
     const { getByText, getByPlaceholderText, queryByText } = await buildComponent();
 
-    await userEvent.type(getByPlaceholderText('Password'), 'abcabc');
+    await userEvent.type(getByPlaceholderText('Password'), 'abcabC');
     fireEvent.click(getByText('Save'));
 
     await waitFor(() => {
@@ -70,15 +70,37 @@ describe('Password validation kata', () => {
     })
   })
 
-
   it('should print password too short and password without caps', async () => {
-    const { getByText, getByPlaceholderText, queryByText } = await buildComponent();
+    const { getByText, getByPlaceholderText } = await buildComponent();
 
     await userEvent.type(getByPlaceholderText('Password'), 'abc123');
     fireEvent.click(getByText('Save'));
 
     expect(getByText('Contraseña muy corta -> 8 <')).toBeInTheDocument()
     expect(getByText('La contraseña debe contener mayúsculas')).toBeInTheDocument()
-  })
+  });
 
+  it.each([
+    '12345678A',
+    'asdfghjkP',
+  ])('should add password to the list when it is valid', async (password: string) => {
+    const { getByText, getByPlaceholderText} = await buildComponent();
+
+    await userEvent.type(getByPlaceholderText('Password'), password);
+    fireEvent.click(getByText('Save'));
+
+    expect(getByText(password)).toBeInTheDocument();
+  });
+
+  it('should not list the password when it does not meets validation criteria', async () => {
+    const { getByText, getByPlaceholderText, queryByText } = await buildComponent();
+
+    const password = 'abc123';
+    await userEvent.type(getByPlaceholderText('Password'), password);
+    fireEvent.click(getByText('Save'));
+
+    await waitFor(() => {
+      expect(queryByText(password)).not.toBeInTheDocument();
+    });
+  });
 });

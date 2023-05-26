@@ -2,4 +2,9 @@
 <input type="text" placeholder="Password" formControlName="password"/>
 <button type="submit">Save</button>
 </form>
-<p>{{ error }}</p>
+
+<p *ngFor="let message of error">{{ message }}</p>
+
+<ul>
+  <li *ngFor="let password of passwords">{{ password }}</li>
+</ul>

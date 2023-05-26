@@ -11,21 +11,25 @@ export class AppComponent {
     password: ['', []]
   });
 
-  error = ''
+  error : string[] = []
+
+  passwords: string[] = []
+
   constructor(private formBuilder: FormBuilder) { }
 
   validatePassword() {
     const password = this.form.value.password!
 
     if(password.length <= 8) {
-      this.error = 'Contraseña muy corta -> 8 <'
-      return
+      this.error.push('Contraseña muy corta -> 8 <');
     }
 
     if(!/[A-Z]/.test(password)) {
-      this.error = 'La contraseña debe contener mayúsculas'
-      return
+      this.error.push('La contraseña debe contener mayúsculas');
     }
 
+    if (this.error.length === 0) {
+      this.passwords.push(password);
+    }
   }
 }
