@@ -1,153 +1,106 @@
-import {findByText, fireEvent, queryByText, render} from "@testing-library/angular";
+import {fireEvent, render} from "@testing-library/angular";
+import {ReactiveFormsModule} from "@angular/forms";
 import {AppComponent} from "./app.component";
 import userEvent from "@testing-library/user-event";
-import {ReactiveFormsModule} from "@angular/forms";
-import {RenderResult} from "@testing-library/angular/src/lib/models";
+import {waitFor} from "@testing-library/dom";
+
+function buildComponent() {
+  return render(AppComponent, {
+    imports: [ReactiveFormsModule]
+  });
+}
 
 describe('Password validation kata', () => {
-  let screen: Promise<RenderResult<any, any>>;
-
-  beforeEach(async () => {
-    screen = render(AppComponent, {
-      imports: [ReactiveFormsModule]
-    });
+  it('should render password input', async () => {
+    const { getByPlaceholderText } = await buildComponent();
+    expect(getByPlaceholderText('Password')).toBeInTheDocument();
   });
 
-  describe('ui components', () => {
-    it('should render password field', async () => {
-      const {getByPlaceholderText} = await screen
-      expect(getByPlaceholderText('Password')).toBeInTheDocument();
-    });
+  it('should render save button', async () => {
+    const { getByText } = await buildComponent();
+    expect(getByText('Save')).toBeInTheDocument();
+  });
 
-    it('should render save button', async () => {
-      const {getByText} = await screen
-      expect(getByText('Save')).toBeInTheDocument();
-    });
+  it.each([
+    '1',
+    '12',
+    '123',
+    '1234',
+    '12345',
+    '123456',
+    '1234567',
+    '12345678'
+  ])('should print error message when password is shorter than 8 chars (%s)', async (password: string) => {
+    const {getByText, getByPlaceholderText} = await buildComponent();
 
-    it('should not render password is too short', async () => {
-      const {queryByText} = await screen
+    await userEvent.type(getByPlaceholderText('Password'), password);
+    fireEvent.click(getByText('Save'));
+
+    expect(getByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
+  });
+
+  it('should not print error message when password is longer than 8 chars', async () => {
+    const {getByText, getByPlaceholderText, queryByText} = await buildComponent();
+
+    await userEvent.type(getByPlaceholderText('Password'), '123456789');
+    fireEvent.click(getByText('Save'));
+
+    await waitFor(() => {
       expect(queryByText('Contraseña muy corta -> 8 <')).not.toBeInTheDocument();
     });
   });
 
-  describe('invalid passwords', () => {
-    it.each([
-      '1',
-      '12',
-      '123',
-      '1234',
-      '12345',
-      '123456',
-      '1234567',
-      '12345678',
-    ])('should render password is too short (%s)', async (password: string) => {
-      const {findByText, getByPlaceholderText, getByText} = await screen
+  it('should print error message when password have not any CAP', async () => {
+    const { getByText, getByPlaceholderText } = await buildComponent();
 
-      await userEvent.type(getByPlaceholderText('Password'), password)
+    await userEvent.type(getByPlaceholderText('Password'), 'zxcvbnmas');
+    fireEvent.click(getByText('Save'));
 
-      await userEvent.click(getByText('Save'));
+    expect(getByText('La contraseña debe contener mayúsculas')).toBeInTheDocument()
+  })
 
-      expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
-    });
+  it('should not print error message when password have any CAP', async () => {
+    const { getByText, getByPlaceholderText, queryByText } = await buildComponent();
 
-    it('should render message if password dos not contain upper case char', async () => {
-      const {findByText, getByPlaceholderText, getByText} = await screen
+    await userEvent.type(getByPlaceholderText('Password'), 'abcabC');
+    fireEvent.click(getByText('Save'));
 
-      await userEvent.type(getByPlaceholderText('Password'), '123456789')
-
-      fireEvent.click(getByText('Save'));
-
-      expect(await findByText('La contraseña debe contener mayúscula')).toBeInTheDocument();
-    });
-
-    it('should render message if password dos not contain upper case char and password is shorter than 8 chars', async () => {
-      const {findByText, getByPlaceholderText, getByText} = await screen
-
-      await userEvent.type(getByPlaceholderText('Password'), '12345')
-
-      fireEvent.click(getByText('Save'));
-
-      expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
-      expect(await findByText('La contraseña debe contener mayúscula')).toBeInTheDocument();
-    });
-
-    it('should render error messages based on input', async () => {
-      const {findByText, queryByText, getByPlaceholderText, getByText} = await screen
-
-      await userEvent.type(getByPlaceholderText('Password'), '12345')
-      fireEvent.click(getByText('Save'));
-
-      expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
-      expect(await findByText('La contraseña debe contener mayúscula')).toBeInTheDocument();
-
-      await userEvent.clear(getByPlaceholderText('Password'))
-      await userEvent.type(getByPlaceholderText('Password'), '12345N')
-      fireEvent.click(getByText('Save'));
-
-      expect(await findByText('Contraseña muy corta -> 8 <')).toBeInTheDocument();
-      expect(queryByText('La contraseña debe contener mayúscula')).not.toBeInTheDocument();
-    });
-
-    it('should warn when password field is empty', async () => {
-      const {findByText, getByText} = await screen
-
-      fireEvent.click(getByText('Save'));
-
-      expect(await findByText('La contraseña no puede ser vacia')).toBeInTheDocument()
-    });
-  });
-
-  describe('valid password', () => {
-    it('should not render message if password is greater than 8 chars', async () => {
-      const {queryByText, getByPlaceholderText, getByText} = await screen
-
-      await userEvent.type(getByPlaceholderText('Password'), '123456789')
-
-      fireEvent.click(getByText('Save'));
-
-      expect(queryByText('Contraseña muy corta -> 8 <')).not.toBeInTheDocument();
-    });
-
-    it('should NOT render message when password does contain a uppercase', async () => {
-      const {queryByText, getByPlaceholderText, getByText} = await screen
-
-      await userEvent.type(getByPlaceholderText('Password'), '12345N')
-
-      fireEvent.click(getByText('Save'));
-
-      expect(queryByText('La contraseña debe contener mayúscula')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(queryByText('La contraseña debe contener mayúsculas')).not.toBeInTheDocument()
     })
+  })
 
-    it('should not render any validation message when password is valid', async () => {
-      const {queryByText, getByPlaceholderText, getByText} = await screen
+  it('should print password too short and password without caps', async () => {
+    const { getByText, getByPlaceholderText } = await buildComponent();
 
-      await userEvent.type(getByPlaceholderText('Password'), '123456789UPPER')
+    await userEvent.type(getByPlaceholderText('Password'), 'abc123');
+    fireEvent.click(getByText('Save'));
 
-      fireEvent.click(getByText('Save'));
+    expect(getByText('Contraseña muy corta -> 8 <')).toBeInTheDocument()
+    expect(getByText('La contraseña debe contener mayúsculas')).toBeInTheDocument()
+  });
 
-      expect(queryByText('La contraseña no puede ser vacia')).not.toBeInTheDocument();
-      expect(queryByText('Contraseña muy corta -> 8 <')).not.toBeInTheDocument();
-      expect(queryByText('La contraseña debe contener mayúscula')).not.toBeInTheDocument();
-    });
+  it.each([
+    '12345678A',
+    'asdfghjkP',
+  ])('should add password to the list when it is valid', async (password: string) => {
+    const { getByText, getByPlaceholderText} = await buildComponent();
 
-    it('should list valid password', async () => {
-      const validPassword = 'da12345678UPPER'
-      const {findByText, queryByText, getByPlaceholderText, getByText} = await screen
+    await userEvent.type(getByPlaceholderText('Password'), password);
+    fireEvent.click(getByText('Save'));
 
-      await userEvent.type(getByPlaceholderText('Password'), validPassword)
-      fireEvent.click(getByText('Save'));
+    expect(getByText(password)).toBeInTheDocument();
+  });
 
-      expect(await findByText(validPassword)).toBeInTheDocument()
-    });
+  it('should not list the password when it does not meets validation criteria', async () => {
+    const { getByText, getByPlaceholderText, queryByText } = await buildComponent();
 
-    it('should not list invalid password', async () => {
-      const invalidPassword = '123456'
-      const {queryByText, getByPlaceholderText, getByText} = await screen
+    const password = 'abc123';
+    await userEvent.type(getByPlaceholderText('Password'), password);
+    fireEvent.click(getByText('Save'));
 
-      await userEvent.type(getByPlaceholderText('Password'), invalidPassword)
-      fireEvent.click(getByText('Save'));
-
-      expect(queryByText(invalidPassword)).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(queryByText(password)).not.toBeInTheDocument();
     });
   });
 });

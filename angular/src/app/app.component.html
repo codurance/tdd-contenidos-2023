@@ -1,12 +1,10 @@
-<form [formGroup]="form" (submit)="validatePassword()">
-  <input type="text" formControlName="password" placeholder="Password" />
-  <button type="submit" >Save</button>
+<form [formGroup]="form" (ngSubmit)="validatePassword()">
+<input type="text" placeholder="Password" formControlName="password"/>
+<button type="submit">Save</button>
 </form>
 
-<div *ngFor="let error of invalidMessage">
-  {{ error }}
-</div>
+<p *ngFor="let message of error">{{ message }}</p>
 
 <ul>
-  <li *ngFor="let password of validPasswords">{{password}}</li>
+  <li *ngFor="let password of passwords">{{ password }}</li>
 </ul>

@@ -7,39 +7,29 @@ import {FormBuilder} from "@angular/forms";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
   form = this.formBuilder.group({
     password: ['', []]
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  error : string[] = []
 
-  invalidMessage: String[] = []
+  passwords: string[] = []
 
-  validPasswords: String[] = []
+  constructor(private formBuilder: FormBuilder) { }
 
   validatePassword() {
-    this.invalidMessage = [];
-    const password = this.form.value.password || ''
+    const password = this.form.value.password!
 
-    if (this.isValidPassword(password)) {
-      this.validPasswords.push(password)
-    }
-  }
-
-  private isValidPassword(password: string) {
-    if (!password)  {
-      this.invalidMessage.push('La contraseña no puede ser vacia');
+    if(password.length <= 8) {
+      this.error.push('Contraseña muy corta -> 8 <');
     }
 
-    if (password.length <= 8) {
-      this.invalidMessage.push('Contraseña muy corta -> 8 <');
+    if(!/[A-Z]/.test(password)) {
+      this.error.push('La contraseña debe contener mayúsculas');
     }
 
-    if (!/[A-Z]/.test(password)) {
-      this.invalidMessage.push('La contraseña debe contener mayúscula');
+    if (this.error.length === 0) {
+      this.passwords.push(password);
     }
-
-    return this.invalidMessage.length === 0;
   }
 }
