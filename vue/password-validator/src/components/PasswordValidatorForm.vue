@@ -4,8 +4,8 @@
 <template>
   <h1>Password Validator</h1>
   <div>
-    <form class="password-form">
-    </form>
+    <section class="password-form">
+    </section>
   </div>
 </template>
 
