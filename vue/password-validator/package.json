@@ -6,7 +6,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:fix": "vue-cli-service lint --fix",
-    "belial": "yarn lint && yarn typecheck && yarn test",
+    "belial": "yarn lint:fix && yarn typecheck && yarn test",
     "dev": "vue-cli-service serve",
     "test": "vue-cli-service test:unit",
     "typecheck": "tsc"
@@ -43,7 +43,6 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-storybook": "^0.6.11",
     "eslint-plugin-vue": "^8.0.3",
-    "husky": "^8.0.3",
     "jest": "^27.0.5",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
@@ -54,7 +53,4 @@
   },
   "_id": "password-validator@0.1.0",
   "readme": "README.md",
-  "hooks": {
-    "pre-commit": "yarn run belial"
-  }
 }
