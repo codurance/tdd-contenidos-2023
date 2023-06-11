@@ -6,8 +6,8 @@
   <div>
     <section class="password-form">
       <input type="text" placeholder="Introduce tu contraseña">
-      <button>Enviar consulta</button>
-      <p>The password should have length of 8</p>
+      <button @click="validatePassword">Enviar consulta</button>
+      <p v-if="lengthError">The password should have length of 8</p>
     </section>
   </div>
 </template>
@@ -17,6 +17,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   data: () => ({
-  })
+    lengthError: false
+  }),
+  methods: {
+    validatePassword () {
+      this.lengthError = true
+    }
+  }
 })
 </script>
