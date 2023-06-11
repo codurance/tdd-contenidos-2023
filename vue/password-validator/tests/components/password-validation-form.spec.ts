@@ -26,7 +26,8 @@ describe('Password validator form', () => {
 
   it.each([
     ['password'],
-    ['a random password']
+    ['a random password'],
+    ['qwertyui']
   ])('should show error when the password has not a number for password {%s}', async (passwordWithoutNumbers: string) => {
     const { getByPlaceholderText, getByText, queryByText } = render(PasswordValidatorForm)
     expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
