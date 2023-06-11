@@ -24,14 +24,8 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
-      if (this.password === 'password') {
+      if (!this.password.match(/\d+/)) {
         this.numbersError = true
-      } else if (this.password === 'a random password') {
-        this.numbersError = true
-      } else if (this.password === 'qwertyui') {
-        if (!this.password.match(/\d+/)) {
-          this.numbersError = true
-        }
       } else {
         this.lengthError = true
       }
