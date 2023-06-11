@@ -5,7 +5,14 @@ import userEvent from '@testing-library/user-event'
 describe('Password validator form', () => {
   it.each([
     ['shor1'],
-    ['p4ass']
+    ['p4ass'],
+    ['1'],
+    ['12'],
+    ['123'],
+    ['1234'],
+    ['12345'],
+    ['123456'],
+    ['1234567']
   ])('should show the error of short password when the password is {%s} only when password is validated', async (shortPasswordWithNumbers: string) => {
     const { getByPlaceholderText, getByText, queryByText } = render(PasswordValidatorForm)
     expect(await queryByText('The password should have length of 8')).not.toBeInTheDocument()
