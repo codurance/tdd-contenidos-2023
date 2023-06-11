@@ -42,7 +42,8 @@ describe('Password validator form', () => {
   })
 
   it.each([
-    ['short']
+    ['short'],
+    ['pass']
   ])('should show short error message and password should contain a number error when the password is {%s}', async (shortPasswordWithoutNumbers) => {
     const { getByPlaceholderText, getByText, queryByText } = render(PasswordValidatorForm)
     expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
