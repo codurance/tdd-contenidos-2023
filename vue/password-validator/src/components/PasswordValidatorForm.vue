@@ -5,10 +5,14 @@
   <h1>Password Validator</h1>
   <div>
     <section class="password-form">
-      <input type="text" placeholder="Introduce tu contraseña" v-model="password">
-      <button @click="validatePassword">Enviar consulta</button>
-      <p v-if="lengthError">The password should have length of 8</p>
-      <p v-if="numbersError">The password should contain numbers</p>
+      <input class="password-form__input" type="text" placeholder="Introduce tu contraseña" v-model="password">
+      <button class="password-form__button" @click="validatePassword">Enviar consulta</button>
+      <article>
+        <ul class="validation-messages-list">
+        <li v-if="lengthError">The password should have length of 8</li>
+        <li v-if="numbersError">The password should contain numbers</li>
+      </ul>
+      </article>
     </section>
   </div>
 </template>
@@ -24,22 +28,19 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
-      if (this.password === 'short') {
+      if (this.doesNotContainANumber()) {
         this.numbersError = true
-        this.lengthError = true
-      } if (this.password === 'pass') {
-        this.numbersError = true
-        if (this.password.length < 8) {
-          this.lengthError = true
-        }
-      } else if (this.doesNotContainANumber()) {
-        this.numbersError = true
-      } else {
+      }
+
+      if (this.isTooShort()) {
         this.lengthError = true
       }
     },
     doesNotContainANumber () {
       return !this.password.match(/\d+/)
+    },
+    isTooShort () {
+      return this.password.length < 8
     }
   }
 })
