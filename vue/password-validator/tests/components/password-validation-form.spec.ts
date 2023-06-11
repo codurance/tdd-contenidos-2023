@@ -21,6 +21,7 @@ describe('Password validator form', () => {
     await userEvent.keyboard(shortPasswordWithNumbers)
     await userEvent.click(getByText('Enviar consulta'))
 
+    expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
     expect(getByText('The password should have length of 8')).toBeInTheDocument()
   })
 
