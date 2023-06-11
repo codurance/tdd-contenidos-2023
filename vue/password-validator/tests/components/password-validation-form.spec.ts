@@ -29,4 +29,18 @@ describe('Password validator form', () => {
 
     expect(getByText('The password should have length of 8')).toBeInTheDocument()
   })
+
+  it.each([
+    ['shor1'],
+    ['p4ass']
+  ])('should show the error of short password when the password is {%s} only when password is validated', async (shortPasswordWithNumbers: string) => {
+    const { getByPlaceholderText, getByText, queryByText } = render(PasswordValidatorForm)
+    expect(await queryByText('The password should have length of 8')).not.toBeInTheDocument()
+
+    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
+    await userEvent.keyboard(shortPasswordWithNumbers)
+    await userEvent.click(getByText('Enviar consulta'))
+
+    expect(getByText('The password should have length of 8')).toBeInTheDocument()
+  })
 })
