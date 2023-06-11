@@ -29,7 +29,9 @@ export default defineComponent({
       } else if (this.password === 'a random password') {
         this.numbersError = true
       } else if (this.password === 'qwertyui') {
-        this.numbersError = true
+        if (!this.password.match(/\d+/)) {
+          this.numbersError = true
+        }
       } else {
         this.lengthError = true
       }
