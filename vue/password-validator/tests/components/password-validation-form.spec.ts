@@ -77,7 +77,9 @@ describe('Password validator form', () => {
   })
 
   it.each([
-    ['p4ssword']
+    ['p4ssword'],
+    ['p4ssw0rd'],
+    ['12345678']
   ])('should show the password on the list of valid passwords {%s}', async (validPassword) => {
     await userEvent.keyboard(validPassword)
     await userEvent.click(passwordForm.getByText('Enviar consulta'))
