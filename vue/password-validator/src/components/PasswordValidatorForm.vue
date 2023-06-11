@@ -28,6 +28,9 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
+      this.numbersError = false
+      this.lengthError = false
+
       if (this.doesNotContainANumber()) {
         this.numbersError = true
       }
