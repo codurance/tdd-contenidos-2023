@@ -24,11 +24,14 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
-      if (!this.password.match(/\d+/)) {
+      if (this.doesNotContainANumber()) {
         this.numbersError = true
       } else {
         this.lengthError = true
       }
+    },
+    doesNotContainANumber () {
+      return !this.password.match(/\d+/)
     }
   }
 })
