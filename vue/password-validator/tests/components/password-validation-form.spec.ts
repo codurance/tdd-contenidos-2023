@@ -62,8 +62,6 @@ describe('Password validator form', () => {
     expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
     expect(await queryByText('The password should have length of 8')).not.toBeInTheDocument()
 
-    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
-    await userEvent.keyboard('short')
     await userEvent.click(getByText('Enviar consulta'))
 
     expect(getByText('The password should contain numbers')).toBeInTheDocument()
@@ -73,7 +71,7 @@ describe('Password validator form', () => {
     await userEvent.keyboard('short1')
     await userEvent.click(getByText('Enviar consulta'))
 
-    expect(getByText('The password should contain numbers')).not.toBeInTheDocument()
-    expect(getByText('The password should contain numbers')).toBeInTheDocument()
+    expect(await queryByText('The password should contain numbers')).not.toBeInTheDocument()
+    expect(getByText('The password should have length of 8')).toBeInTheDocument()
   })
 })
