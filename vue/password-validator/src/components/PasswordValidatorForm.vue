@@ -29,7 +29,9 @@ export default defineComponent({
         this.lengthError = true
       } if (this.password === 'pass') {
         this.numbersError = true
-        this.lengthError = true
+        if (this.password.length < 8) {
+          this.lengthError = true
+        }
       } else if (this.doesNotContainANumber()) {
         this.numbersError = true
       } else {
