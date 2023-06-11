@@ -13,6 +13,12 @@
         <li v-if="numbersError">The password should contain numbers</li>
       </ul>
       </article>
+
+       <article>
+        <ul class="validated-password-list__list">
+          <li :key="validPassword" v-for="validPassword in validPasswords">{{ validPassword }}</li>
+      </ul>
+      </article>
     </section>
   </div>
 </template>
@@ -24,7 +30,8 @@ export default defineComponent({
   data: () => ({
     password: '',
     lengthError: false,
-    numbersError: false
+    numbersError: false,
+    validPasswords: new Array<string>()
   }),
   methods: {
     validatePassword () {
@@ -37,6 +44,10 @@ export default defineComponent({
 
       if (this.isTooShort()) {
         this.lengthError = true
+      }
+
+      if (!this.lengthError && !this.numbersError) {
+        this.validPasswords.push(this.password)
       }
     },
     doesNotContainANumber () {
