@@ -75,4 +75,16 @@ describe('Password validator form', () => {
     expect(await passwordForm.queryByText('The password should contain numbers')).not.toBeInTheDocument()
     expect(passwordForm.getByText('The password should have length of 8')).toBeInTheDocument()
   })
+
+  it.each([
+    ['p4ssword']
+  ])('should show the password on the list of valid passwords {%s}', async (validPassword) => {
+    await userEvent.keyboard(validPassword)
+    await userEvent.click(passwordForm.getByText('Enviar consulta'))
+
+    expect(await passwordForm.queryByText('The password should contain numbers')).not.toBeInTheDocument()
+    expect(await passwordForm.queryByText('The password should have length of 8')).not.toBeInTheDocument()
+
+    expect(passwordForm.getByText(validPassword)).toBeInTheDocument()
+  })
 })
