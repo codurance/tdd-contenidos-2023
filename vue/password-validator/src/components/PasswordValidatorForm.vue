@@ -7,6 +7,7 @@
     <section class="password-form">
       <input type="text" placeholder="Introduce tu contraseña">
       <button>Enviar consulta</button>
+      <p>The password should have length of 8</p>
     </section>
   </div>
 </template>
