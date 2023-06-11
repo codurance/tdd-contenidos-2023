@@ -5,6 +5,8 @@
   <h1>Password Validator</h1>
   <div>
     <section class="password-form">
+      <input type="text" placeholder="Introduce tu contraseña">
+      <button>Enviar consulta</button>
     </section>
   </div>
 </template>
