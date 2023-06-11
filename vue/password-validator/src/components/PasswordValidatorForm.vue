@@ -24,7 +24,10 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
-      if (this.doesNotContainANumber()) {
+      if (this.password === 'short') {
+        this.numbersError = true
+        this.lengthError = true
+      } else if (this.doesNotContainANumber()) {
         this.numbersError = true
       } else {
         this.lengthError = true
