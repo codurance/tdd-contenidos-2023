@@ -20,8 +20,8 @@ describe('Password validator form', () => {
   })
 
   it('should show the error of short password when the password is {p4ss} only when password is validated', async () => {
-    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
-    expect(getByText('The password should have length of 8')).not.toBeInTheDocument()
+    const { getByPlaceholderText, getByText, queryByText } = render(PasswordValidatorForm)
+    expect(await queryByText('The password should have length of 8')).not.toBeInTheDocument()
 
     await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
     await userEvent.keyboard('p4ss')
