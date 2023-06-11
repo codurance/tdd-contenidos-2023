@@ -26,6 +26,8 @@ export default defineComponent({
     validatePassword () {
       if (this.password === 'password') {
         this.numbersError = true
+      } else if (this.password === 'a random password') {
+        this.numbersError = true
       } else {
         this.lengthError = true
       }
