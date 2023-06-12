@@ -22,7 +22,7 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
-      if (this.password === 'short1') {
+      if (this.password.length < 8) {
         this.error = 'The password should have length of 8'
       }
     }
