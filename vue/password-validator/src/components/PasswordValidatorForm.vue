@@ -13,6 +13,11 @@
         <li :key="error" v-for="error in errors">{{ error }}</li>
       </ul>
     </article>
+    <article>
+      <ul class="validated-password-list__list">
+        <li :key="validPassword" v-for="validPassword in validPasswords">{{ validPassword }}</li>
+      </ul>
+    </article>
   </div>
 </template>
 
@@ -22,7 +27,8 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data: () => ({
     password: '',
-    errors: new Array<string>()
+    errors: new Array<string>(),
+    validPasswords: new Array<string>()
   }),
   methods: {
     validatePassword () {
@@ -34,6 +40,10 @@ export default defineComponent({
 
       if (!this.password.match(/\d+/)) {
         this.errors.push('The password should contain numbers')
+      }
+
+      if (this.errors.length === 0) {
+        this.validPasswords.push(this.password)
       }
     }
   }
