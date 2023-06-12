@@ -9,7 +9,7 @@
       <button class="password-form__button" @click="validatePassword">Enviar consulta</button>
     </section>
     <article>
-      <ul>
+      <ul class="validation-messages-list">
         <li :key="error" v-for="error in errors">{{ error }}</li>
       </ul>
     </article>
@@ -22,19 +22,16 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data: () => ({
     password: '',
-    error: '',
     errors: new Array<string>()
   }),
   methods: {
     validatePassword () {
       if (this.password.length < 8) {
         this.errors.push('The password should have length of 8')
-        this.error = 'The password should have length of 8'
       }
 
       if (!this.password.match(/\d+/)) {
         this.errors.push('The password should contain numbers')
-        this.error = 'The password should contain numbers'
       }
     }
   }
