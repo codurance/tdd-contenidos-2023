@@ -5,8 +5,8 @@
   <h1>Password Validator</h1>
   <div>
     <section class="password-form">
-      <input placeholder="Introduce tu contraseña" v-model="password">
-      <button @click="validatePassword">Enviar consulta</button>
+      <input class="password-form__input" placeholder="Introduce tu contraseña" v-model="password">
+      <button class="password-form__button" @click="validatePassword">Enviar consulta</button>
     </section>
     <span>{{ error }}</span>
   </div>
