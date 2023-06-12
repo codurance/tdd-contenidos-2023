@@ -19,7 +19,8 @@ describe('Password validator form', () => {
   })
 
   it.each([
-    ['password']
+    ['password'],
+    ['qwertyui']
   ])('should show an error when password has not a number, using password {%s}', async (passwordWithoutNumbers: string) => {
     const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
 
