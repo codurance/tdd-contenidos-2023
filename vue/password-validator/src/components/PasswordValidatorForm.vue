@@ -26,6 +26,8 @@ export default defineComponent({
   }),
   methods: {
     validatePassword () {
+      this.errors = new Array<string>()
+
       if (this.password.length < 8) {
         this.errors.push('The password should have length of 8')
       }
