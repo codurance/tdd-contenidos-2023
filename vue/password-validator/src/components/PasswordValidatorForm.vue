@@ -8,7 +8,11 @@
       <input class="password-form__input" placeholder="Introduce tu contraseña" v-model="password">
       <button class="password-form__button" @click="validatePassword">Enviar consulta</button>
     </section>
-    <span>{{ error }}</span>
+    <article>
+      <ul>
+        <li :key="error" v-for="error in errors">{{ error }}</li>
+      </ul>
+    </article>
   </div>
 </template>
 
@@ -18,15 +22,18 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data: () => ({
     password: '',
-    error: ''
+    error: '',
+    errors: new Array<string>()
   }),
   methods: {
     validatePassword () {
       if (this.password.length < 8) {
+        this.errors.push('The password should have length of 8')
         this.error = 'The password should have length of 8'
       }
 
       if (!this.password.match(/\d+/)) {
+        this.errors.push('The password should contain numbers')
         this.error = 'The password should contain numbers'
       }
     }
