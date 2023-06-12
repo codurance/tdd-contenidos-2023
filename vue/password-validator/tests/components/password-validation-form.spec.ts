@@ -11,7 +11,8 @@ describe('Password validator form', () => {
   })
 
   it.each([
-    ['short1']
+    ['short1'],
+    ['p4ss']
   ])('should show an error when password is too short with password {%s}', async (shortPassword: string) => {
     const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
 
