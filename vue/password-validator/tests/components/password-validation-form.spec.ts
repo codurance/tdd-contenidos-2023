@@ -41,6 +41,21 @@ describe('Password validator form', () => {
     expect(getByText('The password should contain numbers')).toBeInTheDocument()
   })
 
+  it.each([
+    ['pass'],
+    ['short'],
+    ['badpass']
+  ])('should show both errors when you click the button using password {%s}', async (shortPasswordWithoutNumbers: string) => {
+    const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
+
+    await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
+    await userEvent.keyboard(shortPasswordWithoutNumbers)
+    await userEvent.click(getByText('Enviar consulta'))
+
+    expect(getByText('The password should have length of 8')).toBeInTheDocument()
+    expect(getByText('The password should contain numbers')).toBeInTheDocument()
+  })
+
   it('should show both errors only once when you click the button twice with an empty input', async () => {
     const { getByText } = render(PasswordValidatorForm)
 
