@@ -10,11 +10,13 @@ describe('Password validator form', () => {
     expect(getByText('Enviar consulta')).toBeInTheDocument()
   })
 
-  it('should show an error when password is too short', async () => {
+  it.each([
+    ['short1']
+  ])('should show an error when password is too short with password {%s}', async (shortPassword: string) => {
     const { getByPlaceholderText, getByText } = render(PasswordValidatorForm)
 
     await userEvent.click(getByPlaceholderText('Introduce tu contraseña'))
-    await userEvent.keyboard('short1')
+    await userEvent.keyboard(shortPassword)
     await userEvent.click(getByText('Enviar consulta'))
 
     expect(getByText('The password should have length of 8')).toBeInTheDocument()
