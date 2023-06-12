@@ -34,17 +34,26 @@ export default defineComponent({
     validatePassword () {
       this.errors = new Array<string>()
 
-      if (this.password.length < 8) {
+      if (this.isTooShort()) {
         this.errors.push('The password should have length of 8')
       }
 
-      if (!this.password.match(/\d/)) {
+      if (this.doesNotHaveNumbers()) {
         this.errors.push('The password should contain numbers')
       }
 
-      if (this.errors.length === 0) {
+      if (this.doesNotHaveErrors()) {
         this.validPasswords.push(this.password)
       }
+    },
+    isTooShort () {
+      return this.password.length < 8
+    },
+    doesNotHaveNumbers () {
+      return !this.password.match(/\d/)
+    },
+    doesNotHaveErrors () {
+      return this.errors.length === 0
     }
   }
 })
