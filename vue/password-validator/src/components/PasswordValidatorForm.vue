@@ -38,7 +38,7 @@ export default defineComponent({
         this.errors.push('The password should have length of 8')
       }
 
-      if (!this.password.match(/\d+/)) {
+      if (!this.password.match(/\d/)) {
         this.errors.push('The password should contain numbers')
       }
 

@@ -67,7 +67,8 @@ describe('Password validator form', () => {
   })
 
   it.each([
-    ['p4ssword']
+    ['p4ssword'],
+    ['p4ssw0rd']
   ])('should show correct password in the correct password list using password {%s}', async (correctPassword: string) => {
     const { queryByText, getByPlaceholderText, getByText } = render(PasswordValidatorForm)
 
